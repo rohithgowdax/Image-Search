@@ -1,0 +1,17 @@
+version: '3.9'
+
+# Dev override — mounts source code for hot-reload, exposes more ports
+services:
+  backend:
+    volumes:
+      - ./backend:/app
+      - uploads_data:/app/uploads
+      - chroma_data:/app/chroma_db
+    environment:
+      - DEBUG=true
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"

@@ -1,0 +1,27 @@
+{
+  "name": "image-search-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "author": "Rohith Gowda R <rohithgowdax@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "5.0.1",
+    "axios": "^1.7.9",
+    "react-dropzone": "^14.3.5",
+    "react-router-dom": "^6.28.1",
+    "lucide-react": "^0.468.0",
+    "clsx": "^2.1.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test"
+  },
+  "proxy": "http://localhost:8000",
+  "browserslist": {
+    "production": [">0.2%", "not dead", "not op_mini all"],
+    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
+  }
+}

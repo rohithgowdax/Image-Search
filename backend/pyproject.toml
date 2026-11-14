@@ -1,0 +1,26 @@
+[project]
+name = "image-search-backend"
+version = "1.0.0"
+description = "FastAPI backend for Image Similarity Search Engine"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "Rohith Gowda R", email = "rohithgowdax@gmail.com" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi==0.115.5",
+    "uvicorn[standard]==0.32.1",
+    "python-multipart==0.0.17",
+    "pydantic==2.10.3",
+    "pydantic-settings==2.7.0",
+    "torch>=2.6.0",
+    "torchvision>=0.21.0",
+    "transformers",
+    "pillow==11.0.0",
+    "numpy==1.26.4",
+    "chromadb",
+    "python-dotenv==1.0.1",
+    "httpx==0.28.1",
+    "aiofiles==24.1.0",
+]
