@@ -1,4 +1,6 @@
-# 🔍 VisualSearch — AI Image Similarity Search Engine
+<div align="center">
+
+# VisualSearch — AI Image Similarity Search Engine
 
 > Find visually similar images instantly using CLIP embeddings and vector search.
 
@@ -8,66 +10,68 @@
 [![ChromaDB](https://img.shields.io/badge/ChromaDB-0.5-orange)](https://trychroma.com)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker)](https://docker.com)
 
+</div>
+<img src="assets/image_search.png" width="100%">
 ---
 
-## 📸 Features
+## Features
 
-| Feature | Description |
-|---|---|
-| **Image Search** | Upload any image → get top-N visually similar results |
-| **Text Search** | Search by natural language description (CLIP zero-shot) |
-| **Multi-modal Search** | Combine image + text for refined results |
-| **Reverse Image Search** | Find near-duplicates of any indexed image |
-| **Bulk Upload** | Index up to 20 images at once |
-| **Collection Browser** | Paginated gallery of all indexed images |
-| **REST API** | Full OpenAPI documentation |
-| **Docker** | One-command deployment |
+| Feature                  | Description                                             |
+| ------------------------ | ------------------------------------------------------- |
+| **Image Search**         | Upload any image → get top-N visually similar results   |
+| **Text Search**          | Search by natural language description (CLIP zero-shot) |
+| **Multi-modal Search**   | Combine image + text for refined results                |
+| **Reverse Image Search** | Find near-duplicates of any indexed image               |
+| **Bulk Upload**          | Index up to 20 images at once                           |
+| **Collection Browser**   | Paginated gallery of all indexed images                 |
+| **REST API**             | Full OpenAPI documentation                              |
+| **Docker**               | One-command deployment                                  |
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│                        User Browser                           │
-│                    React Frontend (port 3000)                 │
-│         Search │ Upload │ Collection Management UI            │
+│                        User Browser                          │
+│                    React Frontend (port 3000)                │
+│         Search │ Upload │ Collection Management UI           │
 └─────────────────────────┬────────────────────────────────────┘
                           │ HTTP / REST
                           ▼
 ┌──────────────────────────────────────────────────────────────┐
-│                  FastAPI Backend (port 8000)                  │
+│                  FastAPI Backend (port 8000)                 │
 │                                                              │
-│  ┌────────────┐  ┌────────────┐  ┌───────────────────────┐  │
-│  │  /api/     │  │  /api/     │  │  /api/collection/     │  │
-│  │  search/   │  │  upload    │  │  images / stats       │  │
-│  │  image     │  │  bulk      │  │  clear                │  │
-│  │  text      │  │            │  │                       │  │
-│  │  multimodal│  │            │  │                       │  │
-│  │  reverse   │  │            │  │                       │  │
-│  └─────┬──────┘  └─────┬──────┘  └───────────┬───────────┘  │
-│        │               │                      │              │
-│        ▼               ▼                      │              │
-│  ┌─────────────────────────────┐             │              │
-│  │    EmbeddingService         │             │              │
-│  │  CLIP ViT-B/32 (512-dim)   │             │              │
-│  │  • embed_image()            │             │              │
-│  │  • embed_text()             │             │              │
-│  │  • embed_image_text()       │             │              │
-│  └─────────────┬───────────────┘             │              │
-│                │                             │              │
-│                ▼                             ▼              │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │            VectorStoreService (ChromaDB)            │   │
-│  │   index_image() │ search_similar() │ get_image()    │   │
-│  │   list_images() │ delete_image()   │ clear()        │   │
-│  └─────────────────────────────────────────────────────┘   │
+│  ┌────────────┐  ┌────────────┐  ┌───────────────────────┐   │
+│  │  /api/     │  │  /api/     │  │  /api/collection/     │   │
+│  │  search/   │  │  upload    │  │  images / stats       │   │
+│  │  image     │  │  bulk      │  │  clear                │   │
+│  │  text      │  │            │  │                       │   │
+│  │  multimodal│  │            │  │                       │   │
+│  │  reverse   │  │            │  │                       │   │
+│  └─────┬──────┘  └─────┬──────┘  └───────────┬───────────┘   │
+│        │               │                     │               │
+│        ▼               ▼                     │               │
+│  ┌─────────────────────────────┐             │               │
+│  │    EmbeddingService         │             │               │
+│  │  CLIP ViT-B/32 (512-dim)    │             │               │
+│  │  • embed_image()            │             │               │
+│  │  • embed_text()             │             │               │
+│  │  • embed_image_text()       │             │               │
+│  └─────────────┬───────────────┘             │               │
+│                │                             │               │
+│                ▼                             ▼               │
+│  ┌─────────────────────────────────────────────────────┐     │
+│  │            VectorStoreService (ChromaDB)            │     │
+│  │   index_image() │ search_similar() │ get_image()    │     │
+│  │   list_images() │ delete_image()   │ clear()        │     │
+│  └─────────────────────────────────────────────────────┘     │
 │                                                              │
-│  ┌──────────────────────┐   ┌──────────────────────────┐   │
-│  │   ChromaDB           │   │   Local File Storage     │   │
-│  │   chroma_db/         │   │   uploads/               │   │
-│  │   (Cosine similarity)│   │   (Static files)         │   │
-│  └──────────────────────┘   └──────────────────────────┘   │
+│  ┌──────────────────────┐   ┌──────────────────────────┐     │
+│  │   ChromaDB           │   │   Local File Storage     │     │
+│  │   chroma_db/         │   │   uploads/               │     │
+│  │   (Cosine similarity)│   │   (Static files)         │     │
+│  └──────────────────────┘   └──────────────────────────┘     │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -88,7 +92,7 @@ Query Image ──► CLIP Vision Encoder ──► 512-dim embedding
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Option A: Docker Compose (Recommended)
 
@@ -138,7 +142,7 @@ npm start      # http://localhost:3000
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 image-search-engine/
@@ -189,15 +193,15 @@ image-search-engine/
 
 ---
 
-## 📡 API Reference
+## API Reference
 
 ### Base URL: `http://localhost:8000`
 
 ### Health
 
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/health` | Service health + stats |
+| Method | Endpoint      | Description            |
+| ------ | ------------- | ---------------------- |
+| GET    | `/api/health` | Service health + stats |
 
 ```bash
 curl http://localhost:8000/api/health
@@ -218,6 +222,7 @@ curl -X POST http://localhost:8000/api/upload \
 ```
 
 **Response:**
+
 ```json
 {
   "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -262,6 +267,7 @@ curl -X POST http://localhost:8000/api/search/image \
 ```
 
 **Response:**
+
 ```json
 {
   "query_image_id": null,
@@ -312,12 +318,12 @@ curl "http://localhost:8000/api/search/reverse/3fa85f64-...?top_k=5"
 
 ### Collection
 
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/collection/stats` | Total count, model info |
-| GET | `/api/collection/images` | List images (paginated) |
-| GET | `/api/collection/images/{id}` | Get single image |
-| DELETE | `/api/collection/clear` | Clear all images |
+| Method | Endpoint                      | Description             |
+| ------ | ----------------------------- | ----------------------- |
+| GET    | `/api/collection/stats`       | Total count, model info |
+| GET    | `/api/collection/images`      | List images (paginated) |
+| GET    | `/api/collection/images/{id}` | Get single image        |
+| DELETE | `/api/collection/clear`       | Clear all images        |
 
 ```bash
 # List images page 2
@@ -331,21 +337,21 @@ curl "http://localhost:8000/api/collection/stats"
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
-| Variable | Default | Description |
-|---|---|---|
-| `CLIP_MODEL` | `openai/clip-vit-base-patch32` | HuggingFace model ID |
-| `EMBEDDING_DIM` | `512` | Vector dimensions |
-| `UPLOAD_DIR` | `uploads` | Image storage path |
-| `CHROMA_DIR` | `chroma_db` | Vector DB path |
-| `DEFAULT_TOP_K` | `5` | Default search results |
-| `MAX_FILE_SIZE_MB` | `10` | Max upload size |
-| `DEBUG` | `false` | Enable debug logging |
+| Variable           | Default                        | Description            |
+| ------------------ | ------------------------------ | ---------------------- |
+| `CLIP_MODEL`       | `openai/clip-vit-base-patch32` | HuggingFace model ID   |
+| `EMBEDDING_DIM`    | `512`                          | Vector dimensions      |
+| `UPLOAD_DIR`       | `uploads`                      | Image storage path     |
+| `CHROMA_DIR`       | `chroma_db`                    | Vector DB path         |
+| `DEFAULT_TOP_K`    | `5`                            | Default search results |
+| `MAX_FILE_SIZE_MB` | `10`                           | Max upload size        |
+| `DEBUG`            | `false`                        | Enable debug logging   |
 
 ---
 
-## 🧠 How It Works
+## How It Works
 
 1. **Embedding Generation** — Images are processed through `openai/clip-vit-base-patch32`, a vision-language model that produces 512-dimensional embeddings capturing both visual and semantic features.
 
@@ -357,7 +363,7 @@ curl "http://localhost:8000/api/collection/stats"
 
 ---
 
-## 🌱 Seeding Demo Data
+## Seeding Demo Data
 
 ```bash
 cd backend
@@ -389,19 +395,19 @@ docker compose down -v
 
 ---
 
-## 📈 Performance
+## Performance
 
-| Metric | Value |
-|---|---|
-| Embedding generation | ~150–300ms per image (CPU) |
-| Search latency (1K images) | < 10ms |
-| Search latency (100K images) | < 50ms |
-| CLIP model size | ~600 MB |
-| GPU acceleration | Auto-detected (CUDA) |
+| Metric                       | Value                      |
+| ---------------------------- | -------------------------- |
+| Embedding generation         | ~150–300ms per image (CPU) |
+| Search latency (1K images)   | < 10ms                     |
+| Search latency (100K images) | < 50ms                     |
+| CLIP model size              | ~600 MB                    |
+| GPU acceleration             | Auto-detected (CUDA)       |
 
 ---
 
-## 🔮 Bonus Features Implemented
+## Bonus Features Implemented
 
 - ✅ **Text search** — CLIP zero-shot text embeddings
 - ✅ **Multi-modal search** — Image + text fusion with configurable alpha
@@ -423,4 +429,3 @@ docker compose down -v
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
