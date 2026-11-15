@@ -12,6 +12,7 @@
 
 </div>
 <img src="assets/image_search.png" width="100%">
+
 ---
 
 ## Features
